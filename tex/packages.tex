@@ -1,0 +1,107 @@
+% \newcommand{\cmdDebugFinalIfElse}[2]{\if\cmdDebugFinalSel Debug {#1}\else{#2}\fi}
+% \newcommand{\cmdDebugFinalIf}[2]{\if\cmdDebugFinalSel Debug {#1}\fi}
+
+\usepackage{soul} % for \hl command 
+
+\usepackage{amsmath,amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+\usepackage{textcomp}
+\usepackage{stfloats}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{graphicx}
+
+\ifx\cmddontkeepcolors\undefined
+\usepackage[colorlinks=true, citecolor=ForestGreen]{hyperref}
+\else
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\fi
+
+\usepackage{cleveref} % to use \cref
+\usepackage{cite}
+\usepackage{balance}
+
+\usepackage{colortbl}
+\usepackage{hhline}
+\usepackage{tabularx,colortbl}
+\usepackage{color}
+\usepackage[table, dvipsnames]{xcolor} % to color inside equation
+\usepackage{tabularx}
+\usepackage{multirow}
+
+\usepackage{bbding} % For using the \checkmark and \XSolid commands
+
+\ifx\cmddebug\undefined
+\usepackage[nolist]{acronym} % if you do not want to show the list of abbreviations
+\else
+\usepackage{acronym} % if you want to show the list of abbreviations
+\fi
+
+
+\AtBeginEnvironment{appendices}{\crefalias{section}{appendix}}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\usepackage{float}
+
+\usepackage{footnote}
+
+% \usepackage{enumitem}
+\usepackage[inline]{enumitem} % To use inline enumeration
+\usepackage{braket}
+
+\usepackage{cuted} % Used to define a proof that takes the full width of the page.
+
+%%%%%%%%%%%%%%%%%%%%% New Commands
+\newcommand{\algoproc}[1]{%
+    \hspace*{\algorithmicindent} \textbf{Procedure:} #1 \\
+}
+\newcommand{\algoinput}[1]{%
+    \hspace*{\algorithmicindent} \textbf{Input\;\;\;\;\;\;\,\::} #1 \\
+}
+
+\newcommand{\algooutput}[1]{%
+    \hspace*{\algorithmicindent} \textbf{Output\;\;\;\;\;:} #1 
+}
+
+\ifx\cmddebug\undefined
+
+\ifx\cmddontkeepcolors\undefined
+% What to do when it is undefined. Nothing for now.
+\else
+\renewcommand{\hl}[1]{} % Redefine the hl command to do nothing.
+\let\oldtextcolor\textcolor
+\renewcommand{\textcolor}[2]{\oldtextcolor{black}{#2}}
+\fi
+
+\else
+% Start a section from a new page.
+\let\oldsection\section
+\renewcommand{\section}[1]{\newpage\oldsection{#1}}
+% Start a subsection from a new page.
+\let\oldsubsection\subsection
+\renewcommand{\subsection}[1]{\newpage\oldsubsection{#1}}
+\fi
+
+\newlist{enumFuncReq}{enumerate}{2} % Define enumeration that can have 2 levels.
+\setlist[enumFuncReq,1]{label=(\arabic{enumFuncReqi}), leftmargin=0.8cm} % Define the label of the first level.
+\setlist[enumFuncReq,2]{label=(F\arabic{enumFuncReqi}.\arabic{enumFuncReqii}), leftmargin=0.5cm} % Define the label for the second level.
+\setlistdepth{2}
+
+\newlist{enumSecReq}{enumerate}{2} % Define enumeration that can have 2 levels.
+\setlist[enumSecReq,1]{label=(S\arabic{enumSecReqi}), leftmargin=1.3cm} % Define the label of the first level.
+\setlist[enumSecReq,2]{label=(S\arabic{enumSecReqi}.\arabic{enumSecReqii}), leftmargin=1.2cm} % Define the label for the second level.
+\setlistdepth{2}
+
+\newtheorem{theorem}{Proof} % Use the theorem environment to define a new proof.
+
+% green highlight
+\definecolor{g}{rgb}{0.56, 0.93, 0.56}
+\DeclareRobustCommand{\hlg}[1]{{\sethlcolor{g}\hl{#1}}}
+% blue highlight
+\definecolor{bb}{rgb}{0.56, 0.86, 0.93}
+\DeclareRobustCommand{\hlb}[1]{{\sethlcolor{bb}\hl{#1}}}

@@ -1,0 +1,51 @@
+\section{Preliminaries}
+\label{sec:preliminaries}
+
+\subsection{Two-Trapdoor Homomorphic Encryption}
+\label{sec:preliminary-he}
+
+The Paillier cryptosystem, which contains the following algorithms, is the foundation of the two-trapdoor homomorphic encryption technique \cite{liu2016efficient}.
+
+\begin{itemize}
+    \item $KeyGen(\epsilon) \rightarrow (pk, sk)$.
+    This function takes a security parameter as an input and outputs the public/secret keys, respectively.
+    \item $Enc_{pk}(x) \rightarrow [[x]]$.
+    This function encrypts the plain text $x$ with the public key $pk$ to generate the ciphertext $[[x]]$.
+    \item $KeySplit(sk) \rightarrow (sk_1, sk_2)$.
+    This function splits the secret key $sk$ into two random secrets $sk_1, sk_2$, using random secret sharing.
+    % TODO: AB: I might need to add equation 2 here.
+    The idea is that the secret shares will be given to two separate entities where they both have to collaborate to be able to decrypt the ciphertext to retrieve the original text.
+    \item $PartDec_{sk_i}([[x]]) \rightarrow [x]_i$.
+    Given a ciphertext $[[x]]$, and one of the splitted shared keys $sk_i$, where $i \in \{ 1, 2\}$, this function partially decrypt the ciphertext to obtain the partial decryption $[x]_i$.
+    We emphasize that to be able to decrypt the message to obtain the plain text $x$, both entities holding the secret keys $sk_1, sk_2$ have to collaborate together, each by performing the $PartDec$ algorithm, then execute the following algorithm.
+    \item $FullDec([x]_1, [x]_2) \rightarrow x$.
+    After each of the entities holding the secret keys $sk_1, sk_2$ execute the $PartialDec$ algorithm, they collaborate together by sharing the output of the $PartialDec$ algorithm with each other $[x]_1, [x]_2$ to obtain the plaintext $x$.
+\end{itemize}
+
+This algorithm is based on the assumption that both parties who hold the secret keys $sk_1, sk_2$ are both semi-honest non-colluding parties.
+The HE scheme has interesting properities, such as additive homomorphism and multiplicative homomorphism.
+$[[x_1]].[[x_2]] = [[x_1 + x_2]]$ is an example of additive homomorphism.
+This property is interesting because we can get the encrypted multiplication of two numbers $x_1, x_2$ by only getting the encryption of both number, which are $[[x_1]], [[x_2]]$ in this case.
+Each user can share with the server the encrypted value of their calculations $[[x_i]]$, and the server will be able to only get the encrypted summation of the values reported by the users by multiplying those reading together.
+An example of multiplicative homomorphism is $[[x_1]]^k = [[k . x_1]]$.
+Both properities are highly utilized in many applications.
+Another property that is highly utilized in this paper is the getting the multiplication of two encrypted vectors $[[x_1]], [[x_2]]$.
+Remember that we cannot just multiply them together, because this will yield into the encrypted summation $[[x_1 + x_2]]$, not the multiplication, which is $[[x_1 . x_2]]$.
+Since this part was not covered by the paper, we took the effort of summarizing and proving how the multiplication is performed in \Cref{app:he-multiplication} after getting the required knowledge from \cite{liu2016efficient2}.
+
+\subsection{\acf{fl}}
+\label{sec:preliminaries-fl}
+The FL is based on sharing the encrypted weights between multiple parties so that we can reach the best generalized model without sharing the private data.
+The FL consists of three main steps.
+\begin{enumerate*}[label=(\roman*)]
+\item \emph{Local training}.
+In this step, each user $U_i$ trains for one epoch $t$ on his local data $D_i$ to get the gradient $g_i^{(t)} = \frac{\partial \mathcal{L}_i}{\partial W_i}$, where $\mathcal{L}_i$ is the loss function chosen by $U_i$, whereas $W_i$ is the weights vector of the user's model.
+\item \emph{Aggregation}.
+In this step, the server collects the gradients from the users and averages them to get the global gradient $g^{(t)}$ to be shared with all users.
+This global gradient is formally calculated as follows: $g^{(t)} = \frac{1}{n} \sum_{i=1}^n g_i^{(t)}$.
+Since the gradients can be used to infer useful information about the users' data, then to ensure the privacy of the data, the users share the encryption of their gradients $[[g_i^{(t)}]]$ rather than the gradients themselves.
+Using HE, the server multiplies all the encrypted gradients and divide them by the number of gradients $n$ to get the encrypted averaged value, as explained in \Cref{sec:preliminary-he}.
+\item \emph{Weight updates}.
+The server shares the global averaged gradient $g^(t)$ with all users.
+Each user uses this gradient to make the backpropagation step to update his weights as follows: $W_i^{(t)} = W_i^{(t-1)} - lr^{(t)} g^{(t)}$, where $lr^{(t)}$ is the learning rate.
+\end{enumerate*}
