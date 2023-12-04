@@ -1,5 +1,9 @@
 \begin{abstract}
 
-In this paper, we present a summary of the paper \cite{ma2022shieldfl}, where ShieldFl is proposed, which % TODO
+% In this paper, we present a summary of the paper \cite{ma2022shieldfl}, where ShieldFl is proposed.
+This paper addresses the vulnerability of PPFL to encrypted model poisoning attacks, where a Byzantine adversary submits malicious local gradients in encrypted form.
+To counter this threat, the proposed privacy-preserving defense strategy, named ShieldFL, leverages two-trapdoor homomorphic encryption.
+The approach employs a secure cosine similarity method to assess the distance between encrypted gradients and introduces Byzantine-tolerance aggregation using cosine similarity for robustness across IID and non-IID data.
+Evaluation on benchmark datasets (MNIST, KDDCup99, and Amazon) demonstrates that ShieldFL surpasses existing defense strategies, achieving significant accuracy improvements of $30\%-80\%$ against state-of-the-art model poisoning attacks in both non-IID and IID settings.
 
 \end{abstract}

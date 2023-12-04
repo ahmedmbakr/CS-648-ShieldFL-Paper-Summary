@@ -1,0 +1,14 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+In conclusion, this paper introduces ShieldFL, a privacy-preserving defense strategy designed to counter model poisoning attacks in Privacy-Preserving Federated Learning (PPFL). ShieldFL employs secure cosine similarity over encrypted local gradients, offering an effective means to identify and prevent encrypted malicious gradients, thereby thwarting model poisoning attacks in the PPFL context. 
+
+\subsection{Our Criticism}
+
+Based on our survey in the field, in this section, we will provide a few gaps that need to be addressed in future work.
+\begin{enumerate*}
+    \item The threat model presented is based on semi-trusted non-colluding servers, which is a weak security assumption.
+    Better, the community should focus on providing a solution that allows servers to collude, or the solution can be based on one semi-honest server.
+    \item The way for identifying the poisonous gradient is basic, as it is based on the farthest gradient from the global gradient calculated in the previous iteration.
+    Conversely, this farthest gradient can indicate that it has learned another data distribution that was not identified in the previous iteration.
+\end{enumerate*}
