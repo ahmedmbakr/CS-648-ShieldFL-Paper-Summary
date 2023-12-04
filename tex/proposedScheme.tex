@@ -10,11 +10,11 @@
 % \end{figure}
 
 % \Cref{fig:notations} summarizes the important notations used in the paper.
-ShieldFL works with both IID and non-IID data.
+ShieldFL works with both \ac{iid} and non-\ac{iid} data.
 In the former, the training data are uniformly partitioned among the users, while the latter, the training data is divided by class, where each user stores training data samples belonging to a single class.
-In addition, shieldFL relies on two-trapdoor HE, described in \Cref{sec:preliminary-he}.
+In addition, shieldFL relies on two-trapdoor \ac{he}, described in \Cref{sec:preliminary-he}.
 To protect against not normalized gradients, $SecJudge$ is proposed as a normalization judgment function.
-More over, since the local gradients are encrypted $[[g_i^{(t)}$, $SecCos$ function is proposed to implement the secure cosine similarity between two encrypted gradients, which employs $HE.Mul$ function, explained in \Cref{app:he-multiplication}.
+More over, since the local gradients are encrypted $[[g_i^{(t)}$, $SecCos$ function is proposed to implement the secure cosine similarity between two encrypted gradients, which employs $\ac{he}.Mul$ function, explained in \Cref{app:he-multiplication}.
 % If  a local gradient is dissimilar from an aggregated gradient, it is more likely to be poisonous, as shown in \Cref{fig:malicious-gradients-example}.
 
 % \begin{figure}[htb]
@@ -30,7 +30,7 @@ The setup algorithm in \Cref{fig:setup-algo} is executed by the Key center to ge
 First it splits the $sk$ between the two servers (Line 3).
 It also splits the $sk$ between the first server $S_1$ and every user $U_i$ (Lines 4-5).
 Finally, each user using his share of the key $sk_{s_i}$ to decrypt the encrypted initial weights $[[W^{(0)}]]$, that they will use as seed weights to start the training from.
-We emphasize that the HE operations are explained in \Cref{sec:preliminary-he}.
+We emphasize that the \ac{he} operations are explained in \Cref{sec:preliminary-he}.
 
 \begin{figure}[htb]
 \centering
@@ -55,7 +55,7 @@ On the other hand, if the user is malicious, he generates poisoned encrypted gra
 
 The server $S_1$ collects the encrypted gradients from all users, then executes the privacy-preserving defense strategy algorithm (\Cref{fig:privacy-preserving-defense-strategy-algo}), which generates the aggregated non-poisonous gradient $[[g^{(t)}]]$.
 Lines 1–3 are executed in the case of the first training iteration, where it multiplies all the gradients it received from all users, which is equivalent to adding all the gradients together, as explained in \Cref{sec:preliminary-he}.
-In addition, it calls the $HE.Trun$ algorithm that divides the sum over the number of users.
+In addition, it calls the $\ac{he}.Trun$ algorithm that divides the sum over the number of users.
 In line 6, $S_1$ executes the $SecJudge$ algorithm per user to judge if the reported gradient by that user is normalized or not.
 If it is normalized, it reports their summation; otherwise, it aborts.
 Lines 7-9 are executed only if the gradient reported by the user is normalized.

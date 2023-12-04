@@ -23,7 +23,7 @@ The Paillier cryptosystem, which contains the following algorithms, is the found
 \end{itemize}
 
 This algorithm is based on the assumption that both parties who hold the secret keys $sk_1, sk_2$ are both semi-honest non-colluding parties.
-The HE scheme has interesting properities, such as additive homomorphism and multiplicative homomorphism.
+The \ac{he} scheme has interesting properities, such as additive homomorphism and multiplicative homomorphism.
 $[[x_1]].[[x_2]] = [[x_1 + x_2]]$ is an example of additive homomorphism.
 This property is interesting because we can get the encrypted multiplication of two numbers $x_1, x_2$ by only getting the encryption of both number, which are $[[x_1]], [[x_2]]$ in this case.
 Each user can share with the server the encrypted value of their calculations $[[x_i]]$, and the server will be able to only get the encrypted summation of the values reported by the users by multiplying those reading together.
@@ -35,8 +35,8 @@ Since this part was not covered by the paper, we took the effort of summarizing 
 
 \subsection{\acf{fl}}
 \label{sec:preliminaries-fl}
-The FL is based on sharing the encrypted weights between multiple parties so that we can reach the best generalized model without sharing the private data.
-The FL consists of three main steps.
+The \ac{fl} is based on sharing the encrypted weights between multiple parties so that we can reach the best generalized model without sharing the private data.
+The \ac{fl} consists of three main steps.
 \begin{enumerate*}[label=(\roman*)]
 \item \emph{Local training}.
 In this step, each user $U_i$ trains for one epoch $t$ on his local data $D_i$ to get the gradient $g_i^{(t)} = \frac{\partial \mathcal{L}_i}{\partial W_i}$, where $\mathcal{L}_i$ is the loss function chosen by $U_i$, whereas $W_i$ is the weights vector of the user's model.
@@ -44,7 +44,7 @@ In this step, each user $U_i$ trains for one epoch $t$ on his local data $D_i$ t
 In this step, the server collects the gradients from the users and averages them to get the global gradient $g^{(t)}$ to be shared with all users.
 This global gradient is formally calculated as follows: $g^{(t)} = \frac{1}{n} \sum_{i=1}^n g_i^{(t)}$.
 Since the gradients can be used to infer useful information about the users' data, then to ensure the privacy of the data, the users share the encryption of their gradients $[[g_i^{(t)}]]$ rather than the gradients themselves.
-Using HE, the server multiplies all the encrypted gradients and divide them by the number of gradients $n$ to get the encrypted averaged value, as explained in \Cref{sec:preliminary-he}.
+Using \ac{he}, the server multiplies all the encrypted gradients and divide them by the number of gradients $n$ to get the encrypted averaged value, as explained in \Cref{sec:preliminary-he}.
 \item \emph{Weight updates}.
 The server shares the global averaged gradient $g^(t)$ with all users.
 Each user uses this gradient to make the backpropagation step to update his weights as follows: $W_i^{(t)} = W_i^{(t-1)} - lr^{(t)} g^{(t)}$, where $lr^{(t)}$ is the learning rate.
