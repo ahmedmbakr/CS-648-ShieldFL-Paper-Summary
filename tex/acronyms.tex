@@ -9,3 +9,11 @@
     % \acro{}[]{}
     % \acro{}[]{}
 \end{acronym}
+
+% To expand:
+% LIST = (HE|FL|IID|ASR|PPFL)
+% \b is used in the regex to set the word boundary.
+% 1- pattern :\b(?![\{|$].*)(LIST)s(?![^$|\{]*\})\b  % Not inside {} or $.
+% 2- replace by: \acp{\L$1}
+% 3- pattern :\b(?!.*[\{|$].*)(LIST)(?![^$|\{]*\})\b  % Not inside {} or $.
+% 4- replace by: \ac{\L$1}
